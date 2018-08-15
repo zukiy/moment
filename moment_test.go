@@ -123,6 +123,6 @@ func TestMoment_GetEndOf(t *testing.T) {
 }
 
 func getTimeFromString(s string) time.Time {
-	t, _ := time.ParseInLocation(cDateTimeFormatMySQL, s, time.UTC)
+	t, _ := time.ParseInLocation(cDateTimeFormatDefault, s, time.UTC)
 	return t
 }

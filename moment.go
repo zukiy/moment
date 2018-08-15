@@ -9,7 +9,7 @@ type Moment struct {
 
 // String stringify moment
 func (m *Moment) String() string {
-	return m.t.Format(cDateTimeFormatMySQL)
+	return m.t.Format(cDateTimeFormatDefault)
 }
 
 // New return moment instance
@@ -28,7 +28,7 @@ func NewFromTime(t time.Time) *Moment {
 func NewFromString(s string) (*Moment, error) {
 	var err error
 
-	t, err := time.ParseInLocation(cDateTimeFormatMySQL, s, time.UTC)
+	t, err := time.ParseInLocation(cDateTimeFormatDefault, s, time.UTC)
 	if err != nil {
 		return nil, err
 	}
