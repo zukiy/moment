@@ -1,3 +1,3 @@
 # moment
 
-Assistant for work with calendar
+Assistant for work with time, calendar
