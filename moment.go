@@ -36,6 +36,11 @@ func NewFromString(s string) (*Moment, error) {
 	return NewFromTime(t), err
 }
 
+// NewFromUnix create new moment with unix timestamp
+func NewFromUnix(unix int64) *Moment {
+	return NewFromTime(time.Unix(unix, 0))
+}
+
 // GetTime return moment time
 func (m *Moment) GetTime() time.Time {
 	return m.t
