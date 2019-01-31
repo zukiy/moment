@@ -41,6 +41,12 @@ func NewFromUnix(unix int64) *Moment {
 	return NewFromTime(time.Unix(unix, 0))
 }
 
+// Update apply current time for moment
+func (m *Moment) Update() *Moment {
+	m.t = time.Now()
+	return m
+}
+
 // GetTime return moment time
 func (m *Moment) GetTime() time.Time {
 	return m.t
