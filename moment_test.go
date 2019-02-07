@@ -1,11 +1,74 @@
 package moment
 
 import (
+	"olymptrade.com/utils-for-services/helper"
 	"testing"
 	"time"
 
 	"github.com/stretchr/testify/assert"
 )
+
+func TestUnit_GetWeekBorders(t *testing.T) {
+	var testCases = []struct {
+		date, from, to time.Time
+	}{
+		{
+			getTimeFromString("2019-02-07 15:44:12"),
+			getTimeFromString("2019-02-04 00:00:00"),
+			getTimeFromString("2019-02-10 23:59:59"),
+		},
+		{
+			getTimeFromString("2019-02-04 00:00:00"),
+			getTimeFromString("2019-02-04 00:00:00"),
+			getTimeFromString("2019-02-10 23:59:59"),
+		},
+		{
+			getTimeFromString("2019-02-10 15:44:12"),
+			getTimeFromString("2019-02-04 00:00:00"),
+			getTimeFromString("2019-02-10 23:59:59"),
+		},
+	}
+
+	for _, tc := range testCases {
+		start, end := GetWeekBorders(tc.date)
+		assert.Equal(t, tc.from, start, "start")
+		assert.Equal(t, tc.to, end, "end")
+	}
+}
+
+func TestUnit_GetMonthBorders(t *testing.T) {
+	var testCases = []struct {
+		date, from, to time.Time
+	}{
+		{
+			getTimeFromString("2019-02-07 15:44:12"),
+			getTimeFromString("2019-02-01 00:00:00"),
+			getTimeFromString("2019-02-28 23:59:59"),
+		},
+		{
+			getTimeFromString("2019-02-01 00:00:00"),
+			getTimeFromString("2019-02-01 00:00:00"),
+			getTimeFromString("2019-02-28 23:59:59"),
+		},
+		{
+			getTimeFromString("2019-02-28 23:59:59"),
+			getTimeFromString("2019-02-01 00:00:00"),
+			getTimeFromString("2019-02-28 23:59:59"),
+		},
+
+		{
+			getTimeFromString("2019-03-15 23:59:59"),
+			getTimeFromString("2019-03-01 00:00:00"),
+			getTimeFromString("2019-03-31 23:59:59"),
+		},
+	}
+
+	for _, tc := range testCases {
+		start, end := GetMonthBorders(tc.date)
+		assert.Equal(t, tc.from, start, "start")
+		assert.Equal(t, tc.to, end, "end")
+	}
+}
 
 func TestMoment_GetWeekday(t *testing.T) {
 	var testCases = []struct {
@@ -123,6 +186,6 @@ func TestMoment_GetEndOf(t *testing.T) {
 }
 
 func getTimeFromString(s string) time.Time {
-	t, _ := time.ParseInLocation(cDateTimeFormatDefault, s, time.UTC)
+	t, _ := time.ParseInLocation(cDateTimeFormatDefault, s, helper.GetLocation())
 	return t
 }

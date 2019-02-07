@@ -109,3 +109,30 @@ func (m *Moment) GetEndOf(interval TimeEntity) *Moment {
 	m.t = m.t.Add(-time.Second)
 	return m
 }
+
+// GetWeekBorders return start and end of week
+func GetWeekBorders(t time.Time) (time.Time, time.Time) {
+	var f func(t time.Time, step int) time.Time
+
+	f = func(t time.Time, step int) time.Time {
+		border := time.Monday
+		if step == 1 {
+			border = time.Sunday
+		}
+
+		if t.Weekday() == border {
+			if step == -1 {
+				return time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, t.Location())
+			}
+			return time.Date(t.Year(), t.Month(), t.Day()+1, 0, 0, 0, 0, t.Location()).Add(-time.Second)
+		}
+		return f(t.Add(time.Hour*time.Duration(24*step)), step)
+	}
+	return f(t, -1), f(t, 1)
+}
+
+// GetMonthBorders return start and end of month
+func GetMonthBorders(t time.Time) (time.Time, time.Time) {
+	return time.Date(t.Year(), t.Month(), 1, 0, 0, 0, 0, t.Location()),
+		time.Date(t.Year(), t.Month()+1, 1, 0, 0, 0, 0, t.Location()).Add(-time.Second)
+}
