@@ -1,7 +1,6 @@
 package moment
 
 import (
-	"olymptrade.com/utils-for-services/helper"
 	"testing"
 	"time"
 
@@ -186,6 +185,6 @@ func TestMoment_GetEndOf(t *testing.T) {
 }
 
 func getTimeFromString(s string) time.Time {
-	t, _ := time.ParseInLocation(cDateTimeFormatDefault, s, helper.GetLocation())
+	t, _ := time.ParseInLocation(cDateTimeFormatDefault, s, time.UTC)
 	return t
 }
